@@ -1,0 +1,13 @@
+body {
+    background-color: #FDFBF7;
+    font-family: 'Prompt', sans-serif;
+    color: #1C3A27;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}

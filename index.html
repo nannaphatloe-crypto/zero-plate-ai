@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZERO PLATE AI — Turn Leftovers Into Possibilities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FDFBF7',
+                        sage: '#8A9A86',
+                        'sage-light': '#E9EFE9',
+                        'dark-green': '#1C3A27',
+                        'accent-green': '#2D5A39',
+                    },
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+    <header class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-sage/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="w-10 h-10 rounded-full bg-dark-green flex items-center justify-center text-cream font-bold text-xl">
+                    <i class="fa-solid font-bold fa-leaf"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-dark-green">ZERO PLATE <span class="text-sage">AI</span></span>
+            </div>
+
+            <nav class="hidden md:flex space-x-8 font-medium">
+                <button onclick="navigateTo('home')" id="nav-home" class="nav-link text-dark-green hover:text-sage transition font-semibold">หน้าแรก</button>
+                <button onclick="navigateTo('scanner')" id="nav-scanner" class="nav-link text-gray-600 hover:text-dark-green transition">สแกนวัตถุดิบ</button>
+                <button onclick="navigateTo('recipes')" id="nav-recipes" class="nav-link text-gray-600 hover:text-dark-green transition">สูตรอาหาร AI</button>
+                <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-link text-gray-600 hover:text-dark-green transition">แดชบอร์ด</button>
+            </nav>
+
+            <button class="md:hidden text-dark-green text-2xl focus:outline-none" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-b border-sage/20 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="navigateTo('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-dark-green hover:bg-sage-light">หน้าแรก</button>
+            <button onclick="navigateTo('scanner'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-dark-green hover:bg-sage-light">สแกนวัตถุดิบ</button>
+            <button onclick="navigateTo('recipes'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-dark-green hover:bg-sage-light">สูตรอาหาร AI</button>
+            <button onclick="navigateTo('dashboard'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-dark-green hover:bg-sage-light">แดชบอร์ด</button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="page-home" class="page active">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="inline-block bg-sage-light text-dark-green px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> AI-Powered Food Waste Solution
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-bold text-dark-green leading-tight">
+                        Turn Leftovers Into <span class="text-sage">Possibilities</span>
+                    </h1>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        เปลี่ยนวัตถุดิบตกค้างในตู้เย็นให้กลายเป็นเมนูแสนอร่อยด้วย AI ช่วยลดขยะอาหาร ประหยัดค่าใช้จ่าย และร่วมสร้างโลกที่ยั่งยืนได้ง่ายๆ เพียงปลายนิ้ว
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <button onclick="navigateTo('scanner')" class="bg-dark-green text-cream hover:bg-accent-green px-8 py-4 rounded-2xl font-semibold transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Start Scanning</span>
+                        </button>
+                        <button onclick="navigateTo('recipes')" class="border-2 border-dark-green text-dark-green hover:bg-sage-light px-8 py-4 rounded-2xl font-semibold transition duration-300 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-utensils"></i>
+                            <span>Explore Recipes</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1000&q=80" alt="Fresh ingredients" class="rounded-3xl shadow-2xl object-cover w-full h-[450px]">
+                    <div class="absolute -bottom-6 -left-6 bg-cream p-6 rounded-2xl shadow-xl border border-sage/20 max-w-xs hidden sm:block">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-sage-light rounded-xl flex items-center justify-center text-dark-green text-xl font-bold">
+                                <i class="fa-solid fa-earth-americas"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark-green">SDG 12 Goal</h4>
+                                <p class="text-xs text-gray-500">การผลิตและการบริโภคที่ยั่งยืน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-sage-light/50 py-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-12">
+                        <h2 class="text-3xl font-bold text-dark-green mb-4">ทำไมต้อง ZERO PLATE AI?</h2>
+                        <p class="text-gray-600">ปัญหาขยะอาหาร (Food Waste) ไม่ได้ส่งผลเสียแค่กับกระเป๋าสตางค์ของคุณ แต่ยังส่งผลกระทบต่อสิ่งแวดล้อมระดับโลก</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-cream p-8 rounded-3xl shadow-sm border border-sage/20 text-center">
+                            <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark-green mb-2">1 ใน 3 ของอาหารถูกทิ้ง</h3>
+                            <p class="text-gray-600 text-sm">วัตถุดิบและอาหารที่ถูกผลิตขึ้นทั่วโลกกลายเป็นขยะอาหารโดยไม่ได้ถูกรับประทาน</p>
+                        </div>
+                        <div class="bg-cream p-8 rounded-3xl shadow-sm border border-sage/20 text-center">
+                            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark-green mb-2">สิ้นเปลืองค่าใช้จ่าย</h3>
+                            <p class="text-gray-600 text-sm">นักเรียน หอพัก และครอบครัวสูญเสียเงินหลายพันบาทต่อปีจากวัตถุดิบหมดอายุในตู้เย็น</p>
+                        </div>
+                        <div class="bg-cream p-8 rounded-3xl shadow-sm border border-sage/20 text-center">
+                            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                                <i class="fa-solid fa-cloud-sun"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark-green mb-2">ก๊าซเรือนกระจก 8-10%</h3>
+                            <p class="text-gray-600 text-sm">ขยะอาหารย่อยสลายเป็นก๊าซมีเทน ส่งผลกระทบโดยตรงต่อสภาวะโลกร้อน</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-bold text-dark-green mb-4">How It Works</h2>
+                    <p class="text-gray-600">3 ขั้นตอนง่ายๆ ในการเปลี่ยนของเหลือเป็นอาหารจานโปรด</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                    <div class="bg-cream p-8 rounded-3xl border border-sage/20 shadow-md relative">
+                        <span class="text-5xl font-extrabold text-sage/20 absolute top-6 right-6">01</span>
+                        <div class="w-12 h-12 bg-sage text-cream rounded-xl flex items-center justify-center text-xl font-bold mb-6">1</div>
+                        <h3 class="text-xl font-bold text-dark-green mb-3">Upload Your Ingredients</h3>
+                        <p class="text-gray-600">ถ่ายรูปวัตถุดิบที่เหลืออยู่ในตู้เย็นหรือในครัว แล้วอัปโหลดลงระบบ</p>
+                    </div>
+                    <div class="bg-cream p-8 rounded-3xl border border-sage/20 shadow-md relative">
+                        <span class="text-5xl font-extrabold text-sage/20 absolute top-6 right-6">02</span>
+                        <div class="w-12 h-12 bg-sage text-cream rounded-xl flex items-center justify-center text-xl font-bold mb-6">2</div>
+                        <h3 class="text-xl font-bold text-dark-green mb-3">AI Identifies Ingredients</h3>
+                        <p class="text-gray-600">Computer Vision AI จะสแกนและระบุชนิดวัตถุดิบทั้งหมดโดยอัตโนมัติ</p>
+                    </div>
+                    <div class="bg-cream p-8 rounded-3xl border border-sage/20 shadow-md relative">
+                        <span class="text-5xl font-extrabold text-sage/20 absolute top-6 right-6">03</span>
+                        <div class="w-12 h-12 bg-sage text-cream rounded-xl flex items-center justify-center text-xl font-bold mb-6">3</div>
+                        <h3 class="text-xl font-bold text-dark-green mb-3">Discover Your Recipes</h3>
+                        <p class="text-gray-600">รับสูตรอาหารที่ปรับแต่งโดยเฉพาะ พร้อมวิธีทำที่ใช้วัตถุดิบของคุณได้คุ้มค่าที่สุด</p>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <button onclick="navigateTo('scanner')" class="bg-dark-green text-cream hover:bg-accent-green px-10 py-4 rounded-2xl font-semibold transition duration-300 shadow-lg">
+                        ลองใช้งานเลยฟรี
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-scanner" class="page">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl font-bold text-dark-green mb-3">Food Scanner</h1>
+                    <p class="text-gray-600">อัปโหลดรูปภาพวัตถุดิบของคุณเพื่อให้ AI ตรวจสอบและวิเคราะห์</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-cream p-6 rounded-3xl border-2 border-dashed border-sage/50 flex flex-col items-center justify-center min-h-[380px] relative">
+                        <input type="file" id="image-upload" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+
+                        <div id="upload-placeholder" class="text-center cursor-pointer" onclick="document.getElementById('image-upload').click()">
+                            <div class="w-20 h-20 bg-sage-light text-sage rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <h3 class="font-bold text-dark-green mb-1">คลิกเพื่ออัปโหลดภาพวัตถุดิบ</h3>
+                            <p class="text-xs text-gray-500 mb-4">รองรับ PNG, JPG หรือ WEBP</p>
+                            <span class="inline-block bg-sage text-cream text-sm px-4 py-2 rounded-xl font-medium shadow-sm">เลือกไฟล์รูปภาพ</span>
+                        </div>
+
+                        <div id="image-preview-container" class="hidden w-full h-full flex flex-col items-center">
+                            <img id="image-preview" src="" alt="Preview" class="max-h-[260px] rounded-2xl object-cover mb-4 border border-sage/20">
+                            <button onclick="document.getElementById('image-upload').click()" class="text-sm text-sage hover:text-dark-green font-semibold">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i> เปลี่ยนรูปภาพ
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-cream p-6 rounded-3xl border border-sage/20 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-dark-green">รายการวัตถุดิบที่ตรวจพบ</h3>
+                                <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-md font-medium">Simulated AI Results</span>
+                            </div>
+
+                            <p class="text-xs text-gray-500 mb-4">คุณสามารถเพิ่ม แก้ไข หรือลบรายการวัตถุดิบเพื่อให้ตรงกับความเป็นจริงมากที่สุด</p>
+
+                            <div id="ingredient-list" class="space-y-2 mb-4 max-h-[220px] overflow-y-auto pr-1">
+                                <p class="text-sm text-gray-400 italic text-center py-8">กดปุ่ม "วิเคราะห์วัตถุดิบด้วย AI" หรือเลือกวัตถุดิบตัวอย่างเพื่อเริ่มต้น</p>
+                            </div>
+
+                            <div class="flex space-x-2 mb-4">
+                                <input type="text" id="new-ingredient-input" placeholder="เพิ่มวัตถุดิบอื่นๆ..." class="flex-grow px-4 py-2 rounded-xl border border-sage/30 focus:outline-none focus:border-sage text-sm">
+                                <button onclick="addManualIngredient()" class="bg-sage text-cream hover:bg-dark-green px-4 py-2 rounded-xl font-medium text-sm transition">
+                                    <i class="fa-solid fa-plus"></i> เพิ่ม
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 pt-4 border-t border-sage/10">
+                            <button onclick="loadScenarioExample()" class="w-full text-xs text-center text-sage font-semibold hover:underline">
+                                <i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> โหลดตัวอย่างสถานการณ์ (ไข่, มะเขือเทศ, ผัก)
+                            </button>
+
+                            <button id="analyze-btn" onclick="analyzeIngredients()" class="w-full bg-dark-green text-cream hover:bg-accent-green py-3.5 rounded-2xl font-semibold transition flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>วิเคราะห์วัตถุดิบด้วย AI</span>
+                            </button>
+
+                            <button id="find-recipes-btn" onclick="goToRecipesWithIngredients()" class="w-full bg-sage text-cream hover:bg-dark-green py-3.5 rounded-2xl font-semibold transition flex items-center justify-center space-x-2 hidden">
+                                <span>ค้นหาสูตรอาหาร</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-recipes" class="page">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-sage/20 gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-dark-green mb-2">AI Recipe Recommendations</h1>
+                        <p class="text-gray-600">คัดสรรสูตรอาหารที่ใช้วัตถุดิบของคุณให้คุ้มค่าที่สุด โดย Recommendation & LLM AI</p>
+                    </div>
+
+                    <div class="bg-sage-light p-3 rounded-2xl border border-sage/20 flex items-center space-x-2">
+                        <span class="text-xs font-bold text-dark-green whitespace-nowrap">วัตถุดิบของคุณ:</span>
+                        <div id="recipe-active-ingredients" class="flex flex-wrap gap-1">
+                            <span class="bg-cream text-dark-green text-xs px-2.5 py-1 rounded-full border border-sage/30">ไข่ไก่</span>
+                            <span class="bg-cream text-dark-green text-xs px-2.5 py-1 rounded-full border border-sage/30">มะเขือเทศ</span>
+                            <span class="bg-cream text-dark-green text-xs px-2.5 py-1 rounded-full border border-sage/30">ผักสลัด</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="recipe-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            </div>
+
+            <div id="recipe-modal" class="fixed inset-0 bg-dark-green/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+                <div class="bg-cream rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-sage/30 p-6 md:p-8 relative">
+                    <button onclick="closeRecipeModal()" class="absolute top-6 right-6 w-10 h-10 bg-sage-light text-dark-green rounded-full flex items-center justify-center hover:bg-sage hover:text-cream transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+
+                    <div id="modal-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-dashboard" class="page">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold text-dark-green mb-2">Impact & Value Dashboard</h1>
+                        <p class="text-gray-600">สรุปผลกระทบเชิงบวกจากการใช้วัตถุดิบเหลือใช้และการประหยัดค่าใช้จ่ายของคุณ</p>
+                    </div>
+                    <div class="mt-4 sm:mt-0 flex items-center space-x-2">
+                        <span class="inline-flex items-center bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span>
+                            Live Stats Active
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                    <div class="bg-cream p-6 rounded-3xl border border-sage/20 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-gray-500">วัตถุดิบที่นำกลับมาใช้</span>
+                            <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-carrot"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline">
+                            <span id="stat-ingredients" class="text-3xl font-bold text-dark-green">14</span>
+                            <span class="ml-2 text-sm text-gray-500">ชิ้น/รายการ</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-cream p-6 rounded-3xl border border-sage/20 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-gray-500">เมนูอาหารที่สร้างขึ้น</span>
+                            <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-bowl-food"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline">
+                            <span id="stat-recipes" class="text-3xl font-bold text-dark-green">5</span>
+                            <span class="ml-2 text-sm text-gray-500">เมนู</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-cream p-6 rounded-3xl border border-sage/20 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-gray-500">ขยะอาหารที่ลดลง (คาดการณ์)</span>
+                            <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-weight-hanging"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline">
+                            <span id="stat-waste" class="text-3xl font-bold text-dark-green">2.8</span>
+                            <span class="ml-2 text-sm text-gray-500">กก.</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-cream p-6 rounded-3xl border border-sage/20 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-gray-500">ค่าใช้จ่ายที่ประหยัดได้</span>
+                            <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-baht-sign"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline">
+                            <span id="stat-saved" class="text-3xl font-bold text-dark-green">420</span>
+                            <span class="ml-2 text-sm text-gray-500">บาท</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+                    <div class="bg-cream p-6 rounded-3xl border border-sage/20 shadow-sm">
+                        <h3 class="text-lg font-bold text-dark-green mb-4">การลดขยะอาหารสะสม (กิโลกรัม)</h3>
+                        <div class="h-64">
+                            <canvas id="wasteChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-cream p-6 rounded-3xl border border-sage/20 shadow-sm">
+                        <h3 class="text-lg font-bold text-dark-green mb-4">สัดส่วนประเภทวัตถุดิบที่ช่วยเหลือได้</h3>
+                        <div class="h-64 flex justify-center">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-dark-green text-cream p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="space-y-2 max-w-2xl">
+                        <span class="bg-sage text-cream text-xs px-3 py-1 rounded-full font-semibold">UN Sustainable Development Goal 12</span>
+                        <h3 class="text-2xl font-bold">Responsible Consumption and Production</h3>
+                        <p class="text-cream/80 text-sm">
+                            ทุกเมนูที่คุณปรุงจากของเหลือในตู้เย็น ช่วยลดปริมาณขยะอาหารและลดการปล่อยก๊าซเรือนกระจก ร่วมเป็นส่วนหนึ่งของการสร้างพฤติกรรมการบริโภคที่ยั่งยืน
+                        </p>
+                    </div>
+                    <div class="w-20 h-20 bg-cream/10 rounded-2xl flex items-center justify-center text-4xl shrink-0">
+                        <i class="fa-solid fa-recycle text-sage"></i>
+                    </div>
+                </div>
+
+                <p class="text-xs text-gray-400 text-center mt-8">
+                    * หมายเหตุ: ข้อมูลตัวเลขใน Dashboard รวมการบันทึกจากการใช้งานจริงในเซสชันนี้ ร่วมกับสถิติจำลอง (Simulated Baseline Data) สำหรับการนำเสนอโครงงาน
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark-green text-cream/70 py-8 border-t border-sage/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <p class="text-sm font-semibold text-cream">ZERO PLATE AI Prototype</p>
+                <p class="text-xs text-cream/50">พัฒนาเพื่อการประกวด AI Literacy Challenge — SDG 12 Project</p>
+            </div>
+            <p class="text-xs text-cream/50">© 2026 ZERO PLATE AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
